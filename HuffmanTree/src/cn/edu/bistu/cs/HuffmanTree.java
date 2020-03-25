@@ -1,9 +1,6 @@
 package cn.edu.bistu.cs;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -87,8 +84,39 @@ public class  HuffmanTree {
 	 * @return
 	 */
 	public static Map<Character, String> getCode(HTNode tree){
-		//TODO
-		return null;
+		//遍历树
+		//队列。层次遍历
+		Map<Character, String> map = new HashMap<Character, String>();//用map来存储字符
+		Queue<HTNode> que = new LinkedList<HTNode>();
+		que.add(tree);
+		//把根节点放进队列
+		//看左右孩子，如果有左孩子就把左孩子入队列，如果有右孩子就把右孩子入队列
+		while(!que.isEmpty())
+		{
+			//先取出队列的第一个元素
+			HTNode front = que.poll();
+			if(!front.isLeaf())
+			{
+				if(front.getLchild() != null)
+				{//如果左孩子不是空,设置hashCode，然后把左孩子入队
+					front.getLchild().setHuffmanCode(front.getHuffmanCode() + "0");
+					//front是它的双亲的Huffman编码再加上0
+					que.add(front.getLchild());
+				}
+				if(front.getRchild() != null)
+				{//如果右孩子不是空的就把右孩子入队
+					front.getRchild().setHuffmanCode(front.getHuffmanCode() + "1");
+					//front是它的双亲的Huffman编码再加上1
+					que.add(front.getRchild());
+				}
+				//希望知道结点的每一个hashNode是什么
+			}
+			else
+			{//如果是叶子结点，就把它放在map里面
+				map.put(front.getData(), front.getHuffmanCode());
+			}
+		}
+		return map;
 	}
 	
 	/**
@@ -209,12 +237,12 @@ public class  HuffmanTree {
 			System.out.println("字符'"+c+"'的哈夫曼编码："+code.get(c));
 		}
 		String text = "In computer science and information theory";
-		String coded = htree.encode(text);
+		String coded = htree.encode(text);//把每个字符的哈弗曼编码拼起来，得到字符串的哈弗曼编码
 		System.out.println("字符串：In computer science and information theory");
 		System.out.println("被编码为："+coded);
-		String oriText = htree.decode(coded);
+		String oriText = htree.decode(coded);//解码
 		System.out.println("编码："+coded);
-		System.out.println("被解码为："+oriText);
+		System.out.println("被解码为："+oriText);//解码依旧是输入的内容
 		System.out.println(oriText.equals(text));
 	}
 	

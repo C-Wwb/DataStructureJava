@@ -15,6 +15,16 @@ public class HTNode implements Comparable<HTNode>{
 	 *  哈夫曼树的叶子结点数据
 	 */
 	private char data;
+
+	public String getHuffmanCode() {
+		return HuffmanCode;
+	}
+
+	public void setHuffmanCode(String huffmanCode) {
+		HuffmanCode = huffmanCode;
+	}
+
+	private String HuffmanCode = "";
 	/**
 	 * 结点的编码，只有0和1两种可能
 	 */
