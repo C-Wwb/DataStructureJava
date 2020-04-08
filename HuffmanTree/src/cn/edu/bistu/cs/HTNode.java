@@ -1,5 +1,8 @@
 package cn.edu.bistu.cs;
 public class HTNode implements Comparable<HTNode>{
+	public void setDepth(int i) {
+	}
+
 	public enum Code{
 		ZERO('0'), ONE('1');
 		private char code;

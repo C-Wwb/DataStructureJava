@@ -1,5 +1,6 @@
 package cn.edu.bistu.cs;
 
+import java.io.Serializable;
 import java.util.*;
 
 
@@ -8,8 +9,9 @@ import java.util.*;
  * @author
  *
  */
-public class  HuffmanTree {
+public class  HuffmanTree implements Serializable {
 
+	private static final long serialVersionUID = -6432736834799608073L;
 	/**
 	 * 哈夫曼编码
 	 */
@@ -19,7 +21,7 @@ public class  HuffmanTree {
 	 * 生成的huffman树根结点
 	 */
 	private HTNode tree = null;
-		
+
 	/**
 	 * 根据初始的结点列表，建立哈夫曼树，
 	 * 并生成哈夫曼编码，保存在当前类的code对象中，
@@ -163,8 +165,33 @@ public class  HuffmanTree {
 	 * @return
 	 */
 	public String encode(String text){
-		//TODO
-		return null;
+		HuffmanTree htree = new HuffmanTree();
+		//首先对字符串中的字符出现次数进行统计
+		Map<Character, Integer> chars = HuffmanTree.computeCharCount(text);
+		//计算每一个内容出现了多少次
+		ArrayList<HTNode> nodes = new ArrayList<>();
+		for(Character c : chars.keySet()){
+			//.keySet表示把所有的key都取出来变成了一个集合
+			//把所有生成的结点放在node链表里面
+			HTNode node = new HTNode();
+			node.setData(c);
+			node.setWeight(chars.get(c));
+			//用get方法得到value
+			node.setLchild(null);
+			node.setRchild(null);
+			node.setLeaf(true);
+			nodes.add(node);
+		}
+		HTNode tree = htree.buildTree(nodes);
+		//如何根据map来建立树
+		Map<Character, String> code = HuffmanTree.getCode(tree);
+		StringBuilder result = new StringBuilder();
+		for(int i = 0; i < text.length(); i++)
+		{
+			char ch = text.charAt(i);
+			result.append(code.get(ch));
+		}
+		return result.toString();
 	}
 	
 	/**
@@ -242,10 +269,7 @@ public class  HuffmanTree {
 		System.out.println("被编码为："+coded);
 		String oriText = htree.decode(coded);//解码
 		System.out.println("编码："+coded);
-		System.out.println("被解码为："+oriText);//解码依旧是输入的内容
-		System.out.println(oriText.equals(text));
+		/*System.out.println("被解码为："+oriText);//解码依旧是输入的内容
+		System.out.println(oriText.equals(text));*/
 	}
-	
-	
-	
 }
